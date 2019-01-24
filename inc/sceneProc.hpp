@@ -3,7 +3,7 @@
 
 #include "SceneOptFlow.hpp"
 #include "kalman_filters.hpp"
-
+#include "MedianFlowTrk.hpp"
 
 using namespace cv;
 using namespace std;
@@ -45,6 +45,11 @@ public:
 	void SetSceneStatus(SCENE_STATUS status){sceneStatus = status;};
 	void SetSceneParam(const cv::Mat &image, SceneOptFlow::Params &parameters);
 
+
+	void optFlowInitSceneLock(const cv::Mat image);
+	bool optFlowCalcSceneLock(const cv::Mat image);
+
+
 public:
 
 	cv::Point2f						m_filterVel;//ukf filter result
@@ -54,12 +59,14 @@ public:
 
 protected:
 
-	std::vector<SceneState>	m_sceneState;
+	std::vector<SceneState>		m_sceneState;
 
 
-	Ptr<SceneOptFlow>		m_ScenePtr;
-	Ptr<UnscentedKalmanFilter> uncsentedKalmanFilter;
-	Ptr<UkfSystemModel> model;
+	Ptr<SceneOptFlow>			m_ScenePtr;
+	Ptr<UnscentedKalmanFilter> 	uncsentedKalmanFilter;
+	Ptr<UkfSystemModel> 			model;
+
+	Ptr<MedianFlowTracker> 		m_medianFlowTracker;	
 
 	RNG m_rng;
 	double	m_accNoise;

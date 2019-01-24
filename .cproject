@@ -33,11 +33,11 @@
 								<option id="nvcc.compiler.option.level.2010142702" name="Generate host debug information (-g)" superClass="nvcc.compiler.option.level" value="true" valueType="boolean"/>
 								<option defaultValue="nvcc.compiler.optimization.level.none" id="nvcc.compiler.optimization.level.2033244299" name="Optimization Level" superClass="nvcc.compiler.optimization.level" valueType="enumerated"/>
 								<option id="nvcc.compiler.pic.1781849216" name="Position Independent Code (-fPIC)" superClass="nvcc.compiler.pic" value="true" valueType="boolean"/>
-								<option id="nvcc.compiler.include.paths.600963666" superClass="nvcc.compiler.include.paths" valueType="includePath">
+								<option id="nvcc.compiler.include.paths.600963666" name="Include paths (-I)" superClass="nvcc.compiler.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/include/opencv"/>
 									<listOptionValue builtIn="false" value="../inc"/>
 								</option>
-								<option id="nvcc.compiler.compileroptions.1452514389" superClass="nvcc.compiler.compileroptions" valueType="stringList">
+								<option id="nvcc.compiler.compileroptions.1452514389" name="Preprocessor options (-Xcompiler)" superClass="nvcc.compiler.compileroptions" valueType="stringList">
 									<listOptionValue builtIn="false" value="-fopenmp"/>
 								</option>
 								<inputType id="nvcc.compiler.input.cu.43182765" superClass="nvcc.compiler.input.cu"/>
@@ -46,7 +46,7 @@
 							</tool>
 							<tool id="nvcc.linker.base.1581912566" name="NVCC Linker" superClass="nvcc.linker.base">
 								<option defaultValue="true" id="nvcc.linker.option.shared.1750907320" name="Shared (-shared)" superClass="nvcc.linker.option.shared" valueType="boolean"/>
-								<option id="nvcc.linker.option.libs.570997494" superClass="nvcc.linker.option.libs" valueType="libs">
+								<option id="nvcc.linker.option.libs.570997494" name="Libraries (-l)" superClass="nvcc.linker.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="gomp"/>
 								</option>
 								<inputType id="nvcc.linker.input.1608167455" superClass="nvcc.linker.input">
@@ -79,7 +79,7 @@
 					<externalSetting>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/lib_crScene"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/lib_crScene/Release"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="lib_crScene" srcPrefixMapping="" srcRootPath=""/>
+						<entry flags="RESOLVED" kind="libraryFile" name="crScene" srcPrefixMapping="" srcRootPath=""/>
 					</externalSetting>
 				</externalSettings>
 				<extensions>
@@ -95,7 +95,7 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactExtension="so" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.sharedLib" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.sharedLib" cleanCommand="rm -rf" description="" id="com.nvidia.cuda.ide.seven_five.configuration.so.release.111844424" name="Release" parent="com.nvidia.cuda.ide.seven_five.configuration.so.release">
+				<configuration artifactExtension="so" artifactName="crScene" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.sharedLib" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.sharedLib" cleanCommand="rm -rf" description="" id="com.nvidia.cuda.ide.seven_five.configuration.so.release.111844424" name="Release" parent="com.nvidia.cuda.ide.seven_five.configuration.so.release">
 					<folderInfo id="com.nvidia.cuda.ide.seven_five.configuration.so.release.111844424." name="/" resourcePath="">
 						<toolChain id="com.nvidia.cuda.ide.toolchain.seven_five.so.release.971448264" name="CUDA Toolkit 8.0" superClass="com.nvidia.cuda.ide.toolchain.seven_five.so.release">
 							<targetPlatform archList="all" binaryParser="com.nvidia.cuda.ide.elf;com.nvidia.cuda.ide.macho;com.nvidia.cuda.ide.cubin" id="com.nvidia.cuda.ide.targetPlatform.2068445983" isAbstract="false" name="Debug Platform" osList="linux,macosx" superClass="com.nvidia.cuda.ide.targetPlatform"/>
@@ -105,11 +105,11 @@
 								<option id="nvcc.compiler.option.level.6097111" name="Generate host debug information (-g)" superClass="nvcc.compiler.option.level"/>
 								<option defaultValue="nvcc.compiler.optimization.level.most" id="nvcc.compiler.optimization.level.1548349434" name="Optimization Level" superClass="nvcc.compiler.optimization.level" valueType="enumerated"/>
 								<option id="nvcc.compiler.pic.1874255674" name="Position Independent Code (-fPIC)" superClass="nvcc.compiler.pic" value="true" valueType="boolean"/>
-								<option id="nvcc.compiler.include.paths.2010773439" superClass="nvcc.compiler.include.paths" valueType="includePath">
+								<option id="nvcc.compiler.include.paths.2010773439" name="Include paths (-I)" superClass="nvcc.compiler.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/include/opencv"/>
 									<listOptionValue builtIn="false" value="../inc"/>
 								</option>
-								<option id="nvcc.compiler.compileroptions.869082036" superClass="nvcc.compiler.compileroptions" valueType="stringList">
+								<option id="nvcc.compiler.compileroptions.869082036" name="Preprocessor options (-Xcompiler)" superClass="nvcc.compiler.compileroptions" valueType="stringList">
 									<listOptionValue builtIn="false" value="-fopenmp"/>
 								</option>
 								<inputType id="nvcc.compiler.input.cu.701299739" superClass="nvcc.compiler.input.cu"/>
@@ -118,7 +118,7 @@
 							</tool>
 							<tool id="nvcc.linker.base.339266637" name="NVCC Linker" superClass="nvcc.linker.base">
 								<option defaultValue="true" id="nvcc.linker.option.shared.1079737923" name="Shared (-shared)" superClass="nvcc.linker.option.shared" valueType="boolean"/>
-								<option id="nvcc.linker.option.libs.1227407178" superClass="nvcc.linker.option.libs" valueType="libs">
+								<option id="nvcc.linker.option.libs.1227407178" name="Libraries (-l)" superClass="nvcc.linker.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="gomp"/>
 								</option>
 								<inputType id="nvcc.linker.input.947776364" superClass="nvcc.linker.input">
@@ -171,5 +171,12 @@
 		</scannerConfigBuildInfo>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
-	<storageModule moduleId="refreshScope"/>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="Release">
+			<resource resourceType="PROJECT" workspacePath="/lib_crScene"/>
+		</configuration>
+		<configuration configurationName="Debug">
+			<resource resourceType="PROJECT" workspacePath="/lib_crScene"/>
+		</configuration>
+	</storageModule>
 </cproject>

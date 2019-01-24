@@ -12,6 +12,7 @@ SceneProc::SceneProc()
 	m_ScenePtr = cv::Ptr<SceneOptFlow>();
 	uncsentedKalmanFilter = cv::Ptr<UnscentedKalmanFilter>();
 	model = cv::Ptr<UkfSystemModel>();
+	m_medianFlowTracker = cv::Ptr<MedianFlowTracker>();
 	standardSize = cv::Size(1920,1080);
 	m_bakTS = 0;
 	m_accNoise  = 0.0;//1e-3;
@@ -320,5 +321,115 @@ void  SceneProc::AnalyseSceneLock()
 		assert(0);
 	}
 }
+
+
+void  SceneProc::optFlowInitSceneLock(const cv::Mat image)
+{
+
+	SceneState tpState;
+	m_sceneState.clear();
+
+	tpState.ts = *((UInt32*)image.data);
+	tpState.mv = cv::Point2f(0.f, 0.f);
+	tpState.confidence = 1.0;
+	tpState.deltaT = 20000;//us
+
+	if((imageSize.width != image.cols || imageSize.height != image.rows ) && !m_medianFlowTracker.empty()){
+		m_medianFlowTracker.release();
+	}
+
+
+	if(m_medianFlowTracker.empty()){
+		MedianFlowTracker::Params parameters;
+		parameters.pointsInGrid = 20;
+		m_medianFlowTracker = MedianFlowTracker::CreateMedianFlowTrk(parameters);
+		assert(!m_medianFlowTracker.empty());
+	}
+	
+	Rect2d	boundingRect;
+	boundingRect.x = boundingRect.y = 0;
+	boundingRect.width  = image.cols;	
+	boundingRect.height = image.rows;
+	m_medianFlowTracker->init(image, boundingRect);
+
+
+	m_sceneState.push_back(tpState);
+	m_bakTS = tpState.ts;
+
+	if( !uncsentedKalmanFilter.empty()){
+		uncsentedKalmanFilter.release();
+		model.release();
+	}
+	m_rng = cv::RNG(dbg_getCurTimeInUsec());
+
+	InitUKFilter(0.f, 0.f);
+	m_sumDelta.x = m_sumDelta.y = 0.f;
+	m_filterVel.x = m_filterVel.y = 0.f;
+	m_instanVel.x= m_instanVel.y = 0.f;
+	m_bakDetlta.x= m_bakDetlta.y = 0.f;
+	m_instanConfd = tpState.confidence;
+
+	sceneStatus = RUN_SCENE;
+	imageSize = image.size();
+
+
+}
+
+
+bool SceneProc::optFlowCalcSceneLock(const cv::Mat image)
+{
+	Point2f mvPos;
+	SceneState		tpState;
+	float fx, fy;
+	Rect2d	boundingRect;
+	
+	if(imageSize.width != image.cols || imageSize.height != image.rows){
+		//optFlowInitSceneLock(image);
+		return false;
+	}
+
+	tpState.ts = *((UInt32*)image.data);
+	assert(!m_medianFlowTracker.empty());
+	assert(!image.empty());
+	if(tpState.ts<m_bakTS){
+		printf("%s:curts=%ld, prets=%ld\n",__func__, tpState.ts, m_bakTS);
+		int ncount = m_sceneState.size();
+		if(ncount>0)
+			tpState.ts = m_bakTS + m_sceneState[ncount-1].deltaT;
+	}
+	assert(tpState.ts>=m_bakTS);
+
+	bool iRtn = m_medianFlowTracker->update(image, boundingRect);
+
+	fx = 1.0;//standardSize.width*1.0/image.cols;
+	fy = 1.0;//standardSize.height*1.0/image.rows;
+
+	if(m_sceneState.size() >= MAX_SCENE_FRAMES){
+		StateVectorIterator it = m_sceneState.begin();
+		m_sceneState.erase(it);
+	}
+	if(iRtn){
+		tpState.confidence =1.0;
+	}else{
+		tpState.confidence =0.f;
+	}
+	mvPos.x = boundingRect.x + boundingRect.width/2 ; 
+	mvPos.y = boundingRect.y + boundingRect.height/2 ;
+	tpState.mv.x = mvPos.x*fx;
+	tpState.mv.y = mvPos.y*fy;
+	tpState.deltaT = tpState.ts - m_bakTS;
+	m_sceneState.push_back(tpState);
+
+	//printf("%s:timestamp=%d, deltaT=%d\n",__func__, tpState.ts, tpState.deltaT);
+
+	m_bakTS = tpState.ts;
+
+	m_instanVel.x = tpState.mv.x;
+	m_instanVel.y = tpState.mv.y;
+	m_instanConfd = tpState.confidence;
+	AnalyseSceneLock();
+	return iRtn;
+}
+
 
 }
