@@ -347,9 +347,10 @@ void  SceneProc::optFlowInitSceneLock(const cv::Mat image)
 	}
 	
 	Rect2d	boundingRect;
-	boundingRect.x = boundingRect.y = 0;
-	boundingRect.width  = image.cols;	
-	boundingRect.height = image.rows;
+	boundingRect.x = 0.2*(image.cols);
+	boundingRect.y = 0.2*(image.rows);
+	boundingRect.width  = 0.6*image.cols;	
+	boundingRect.height = 0.6*image.rows;
 	m_medianFlowTracker->init(image, boundingRect);
 
 
