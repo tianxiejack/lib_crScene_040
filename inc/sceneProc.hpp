@@ -12,12 +12,13 @@ using namespace OptFlowTrk;
 namespace OptFlowTrk{
 
 typedef unsigned int UInt32;
+typedef unsigned long long UInt64;
 
 #define		MAX_SCENE_FRAMES		200
 
 typedef struct{
-	UInt32 ts; //us
-	UInt32 deltaT;
+	UInt64 ts; //us
+	UInt64 deltaT;
 	cv::Point2f	mv;
 	float confidence;
 }SceneState;
@@ -70,7 +71,7 @@ protected:
 
 	RNG m_rng;
 	double	m_accNoise;
-	UInt32 m_bakTS;
+	UInt64 m_bakTS;
 
 private:
 	cv::Size	standardSize;

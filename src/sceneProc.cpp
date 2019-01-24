@@ -92,7 +92,7 @@ void SceneProc::InitSceneLock(const cv::Mat image)
 	SceneState		tpState;
 	m_sceneState.clear();
 
-	tpState.ts = *((UInt32*)image.data);
+	tpState.ts = *((UInt64*)image.data);
 	tpState.mv = cv::Point2f(0.f, 0.f);
 	tpState.confidence = 1.0;
 	tpState.deltaT = 20000;//us
@@ -146,7 +146,7 @@ void SceneProc::CalSceneLock(const cv::Mat image)
 		return;
 	}
 
-	tpState.ts = *((UInt32*)image.data);
+	tpState.ts = *((UInt64*)image.data);
 	assert(!m_ScenePtr.empty());
 	assert(!image.empty());
 	if(tpState.ts<m_bakTS){
@@ -329,7 +329,7 @@ void  SceneProc::optFlowInitSceneLock(const cv::Mat image)
 	SceneState tpState;
 	m_sceneState.clear();
 
-	tpState.ts = *((UInt32*)image.data);
+	tpState.ts = *((UInt64*)image.data);
 	tpState.mv = cv::Point2f(0.f, 0.f);
 	tpState.confidence = 1.0;
 	tpState.deltaT = 20000;//us
@@ -389,7 +389,7 @@ bool SceneProc::optFlowCalcSceneLock(const cv::Mat image,cv::Rect &bound)
 		return false;
 	}
 
-	tpState.ts = *((UInt32*)image.data);
+	tpState.ts = *((UInt64*)image.data);
 	assert(!m_medianFlowTracker.empty());
 	assert(!image.empty());
 	if(tpState.ts<m_bakTS){
