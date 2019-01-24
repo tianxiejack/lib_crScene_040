@@ -46,10 +46,10 @@ bool MedianFlowTracker::update( const Mat& image, Rect2d& boundingBox )
 {
 	if( !isInit )
 	    return false;
-
+		
 	if( image.empty() )
-	    return false;
-
+		return false;
+	
 	return updateImpl(image, boundingBox);
 }
 
@@ -387,9 +387,10 @@ bool MedianFlowTrackerImpl::medianFlowImpl(Mat oldImage,Mat newImage,Rect2d& old
         displacements.push_back(sqrt(di[i].ddot(di[i])));
     }
     if(getMedian(displacements,(int)displacements.size())>20){
+	printf("\n  %s:displacement=%f\n",__func__, displacements);
         return false;
+	 
     }
-
     return true;
 }
 

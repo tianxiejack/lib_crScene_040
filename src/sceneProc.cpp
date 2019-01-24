@@ -377,7 +377,7 @@ void  SceneProc::optFlowInitSceneLock(const cv::Mat image)
 }
 
 
-bool SceneProc::optFlowCalcSceneLock(const cv::Mat image)
+bool SceneProc::optFlowCalcSceneLock(const cv::Mat image,cv::Rect &bound)
 {
 	Point2f mvPos;
 	SceneState		tpState;
@@ -393,10 +393,11 @@ bool SceneProc::optFlowCalcSceneLock(const cv::Mat image)
 	assert(!m_medianFlowTracker.empty());
 	assert(!image.empty());
 	if(tpState.ts<m_bakTS){
-		printf("%s:curts=%ld, prets=%ld\n",__func__, tpState.ts, m_bakTS);
+		printf("%s:curts=%ld, prets=%ld  \n",__func__, tpState.ts, m_bakTS);
 		int ncount = m_sceneState.size();
 		if(ncount>0)
 			tpState.ts = m_bakTS + m_sceneState[ncount-1].deltaT;
+		printf("%s :  ncount  = %d , deltaT = %d \n",__func__,ncount , m_sceneState[ncount-1].deltaT);
 	}
 	assert(tpState.ts>=m_bakTS);
 
@@ -427,6 +428,12 @@ bool SceneProc::optFlowCalcSceneLock(const cv::Mat image)
 
 	m_instanVel.x = tpState.mv.x;
 	m_instanVel.y = tpState.mv.y;
+
+	bound.x = boundingRect.x;
+	bound.y = boundingRect.y;
+	bound.width = boundingRect.width;
+	bound.height = boundingRect.height;
+	
 	m_instanConfd = tpState.confidence;
 	AnalyseSceneLock();
 	return iRtn;
